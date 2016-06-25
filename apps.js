@@ -37,30 +37,34 @@ var usb = new Images('usb', 'img/usb.jpg');
 var waterCan = new Images('water_can', 'img/waterCan.jpg');
 var wineGlass = new Images('wine_glass', 'img/wineGlass.jpg');
 
-var firstDiv = document.getElementById('imgOne');
-var secondDiv = document.getElementById('imgTwo');
-var thirdDiv = document.getElementById('imgThree');
+function displayImages(){
+  var firstDiv = document.getElementById('imgOne');
+  var secondDiv = document.getElementById('imgTwo');
+  var thirdDiv = document.getElementById('imgThree');
 
 //getting first image
-var displayOne = document.createElement('img');
-var getImage = randomImage();
-displayOne.src = allImg[getImage].imagePath;
-firstDiv.appendChild(displayOne);
+  var displayOne = document.createElement('img');
+  var getImage = randomImage();
+  displayOne.src = allImg[getImage].imagePath;
+  firstDiv.appendChild(displayOne);
 
 //getting second image
-var displayTwo = document.createElement('img');
-var getImageTwo = randomImage();
-while (getImageTwo === getImage){
-  getImageTwo = randomImage();
-};
-displayTwo.src = allImg[getImageTwo].imagePath;
-secondDiv.appendChild(displayTwo);
+  var displayTwo = document.createElement('img');
+  var getImageTwo = randomImage();
+  while (getImageTwo === getImage){
+    getImageTwo = randomImage();
+  };
+  displayTwo.src = allImg[getImageTwo].imagePath;
+  secondDiv.appendChild(displayTwo);
 
 //getting third image
-var displayThree = document.createElement('img');
-var getImageThree = randomImage();
-while(getImageThree === getImage && getImageTwo){
-  getImageThree = randomImage();
+  var displayThree = document.createElement('img');
+  var getImageThree = randomImage();
+  while(getImageThree === getImage && getImageTwo){
+    getImageThree = randomImage();
+  };
+  displayThree.src = allImg[getImageThree].imagePath;
+  thirdDiv.appendChild(displayThree);
 };
-displayThree.src = allImg[getImageThree].imagePath;
-thirdDiv.appendChild(displayThree);
+
+displayImages();
