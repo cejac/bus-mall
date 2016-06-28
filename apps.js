@@ -1,4 +1,5 @@
 var allImg = [];
+totalClicks = 0;
 
 function Images(imageName, imagePath) {
   this.imageName = imageName;
@@ -37,10 +38,11 @@ var usb = new Images('usb', 'img/usb.jpg');
 var waterCan = new Images('water_can', 'img/waterCan.jpg');
 var wineGlass = new Images('wine_glass', 'img/wineGlass.jpg');
 
+var firstDiv = document.getElementById('imgOne');
+var secondDiv = document.getElementById('imgTwo');
+var thirdDiv = document.getElementById('imgThree');
+
 function displayImages(){
-  var firstDiv = document.getElementById('imgOne');
-  var secondDiv = document.getElementById('imgTwo');
-  var thirdDiv = document.getElementById('imgThree');
 
 //getting first image
   var displayOne = document.createElement('img');
@@ -66,5 +68,23 @@ function displayImages(){
   displayThree.src = allImg[getImageThree].imagePath;
   thirdDiv.appendChild(displayThree);
 };
-
 displayImages();
+
+//event handler for generating new Images
+function changeImage(){
+  this.clicks++;
+  totalClicks++;
+  displayImages();
+}
+
+imgOne.addEventListener('click', function(){
+  changeImage();
+});
+
+imgTwo.addEventListener('click', function() {
+  changeImage();
+});
+
+imgThree.addEventListener('click', function(){
+  changeImage();
+});
