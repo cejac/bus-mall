@@ -84,6 +84,7 @@ displayImages();
 function changeImage(){
   this.clicks++;
   totalClicks++;
+  checkButton();
   displayImages();
 }
 
@@ -98,3 +99,12 @@ imgTwo.addEventListener('click', function() {
 imgThree.addEventListener('click', function(){
   changeImage();
 });
+
+var hidden;
+function checkButton() {
+  if (totalClicks < 15) {
+    resultButton.removeAttribute(hidden);
+  } else {
+    resultButton.style.display = 'block';
+  }
+}
