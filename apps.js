@@ -10,7 +10,7 @@ function Images(imageName, imagePath) {
 }
 
 Images.prototype.countShown = function() {
-  return this.shown++;
+  return shown++;
 };
 
 function randomImage(){
@@ -38,16 +38,22 @@ var usb = new Images('usb', 'img/usb.jpg');
 var waterCan = new Images('water_can', 'img/waterCan.jpg');
 var wineGlass = new Images('wine_glass', 'img/wineGlass.jpg');
 
-var firstDiv = document.getElementById('imgOne');
-var secondDiv = document.getElementById('imgTwo');
-var thirdDiv = document.getElementById('imgThree');
-
 function displayImages(){
+
+  var firstDiv = document.getElementById('imgOne');
+  var secondDiv = document.getElementById('imgTwo');
+  var thirdDiv = document.getElementById('imgThree');
+
+  firstDiv.innerHTML = '';
+  secondDiv.innerHTML = '';
+  thirdDiv.innerHTML = '';
 
 //getting first image
   var displayOne = document.createElement('img');
   var getImage = randomImage();
   displayOne.src = allImg[getImage].imagePath;
+  displayOne.id = allImg[getImage].imageName;
+  allImg[getImage].shown++;
   firstDiv.appendChild(displayOne);
 
 //getting second image
@@ -57,15 +63,19 @@ function displayImages(){
     getImageTwo = randomImage();
   };
   displayTwo.src = allImg[getImageTwo].imagePath;
+  displayTwo.id = allImg[getImageTwo].imageName;
+  allImg[getImageTwo].shown++;
   secondDiv.appendChild(displayTwo);
 
 //getting third image
   var displayThree = document.createElement('img');
   var getImageThree = randomImage();
-  while(getImageThree === getImage && getImageTwo){
+  while(getImageThree === getImage || getImageThree === getImageTwo){
     getImageThree = randomImage();
   };
   displayThree.src = allImg[getImageThree].imagePath;
+  displayThree.id = allImg[getImageThree].imageName;
+  allImg[getImageThree].shown++;
   thirdDiv.appendChild(displayThree);
 };
 displayImages();
