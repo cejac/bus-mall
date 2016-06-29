@@ -32,3 +32,8 @@ p {
   font-size: 8px;
   color: white;
 }
+
+.canvasChart {
+  height: 500;
+  width: 500;
+}

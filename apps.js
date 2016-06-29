@@ -78,33 +78,80 @@ function displayImages(){
   allImg[getImageThree].shown++;
   thirdDiv.appendChild(displayThree);
 };
-displayImages();
+// displayImages();
 
-//event handler for generating new Images
-function changeImage(){
-  this.clicks++;
+function clickHandler(event){
+  console.log(event.target.id);
   totalClicks++;
-  checkButton();
+  for(i = 0; i < allImg.length; i++){
+    if(allImg[i].imageName === event.target.id){
+      allImg[i].clicks++;
+    }
+  }
+  if(totalClicks < 15){
+    displayImages();
+  }
+  else if(totalClicks === 15){
+    clickSet();
+  }
+}
+
+function clickSet(){
+
+  document.getElementById('clickMore').style.visibility = 'visible';
+  document.getElementById('showGraph').style.visibility = 'visible';
+  var imgDivs = document.getElementsByClassName('imgDiv');
+  imgDivs[0].style.display = 'none';
+  imgDivs[1].style.display = 'none';
+  imgDivs[2].style.display = 'none';
+}
+
+function newTriesHandler(){
+  totalClicks = 0;
+  document.getElementById('showGraph').style.visibility = 'hidden';
+  document.getElementById('clickMore').style.visibility = 'hidden';
+  document.getElementById('myChart').style.visibility = 'hidden';
   displayImages();
 }
 
-imgOne.addEventListener('click', function(){
-  changeImage();
-});
-
-imgTwo.addEventListener('click', function() {
-  changeImage();
-});
-
-imgThree.addEventListener('click', function(){
-  changeImage();
-});
-
-var hidden;
-function checkButton() {
-  if (totalClicks < 15) {
-    resultButton.removeAttribute(hidden);
-  } else {
-    resultButton.style.display = 'block';
+//canvas chart
+function renderChart(){
+  var names = [];
+  var xClicked = [];
+  for (i = 0; i < allImg.length; i++){
+    names.push(allImg[i].imageName);
+    xClicked.push(allImg[i].clicks);
   }
+
+  var data = {
+    labels: names,
+    datasets: [
+      {label: 'Times Chosen',
+      backgroundColor:'#34ACAF',
+      strokeColor:'#34ACAF',
+      data: xClicked,
+    }],
+  };
+
+  var ctx = document.getElementById('myChart');
+  var myChart = new Chart(ctx, {
+    type:'bar',
+    data: data,
+  });
 }
+
+//new images after each click
+var el = document.getElementById('imgOne');
+el.addEventListener('click', clickHandler);
+var elTwo = document.getElementById('imgTwo');
+elTwo.addEventListener('click', clickHandler);
+var elThree = document.getElementById('imgThree');
+elThree.addEventListener('click', clickHandler);
+
+//15 new clicks
+var clickEl = document.getElementById('clickMore');
+clickEl.addEventListener('click', newTriesHandler);
+var elChart = document.getElementById('showGraph');
+elChart.addEventListener('click', renderChart);
+
+displayImages();
