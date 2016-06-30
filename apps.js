@@ -1,4 +1,5 @@
 var allImg = [];
+totalClicks = 0;
 
 function Images(imageName, imagePath) {
   this.imageName = imageName;
@@ -9,7 +10,7 @@ function Images(imageName, imagePath) {
 }
 
 Images.prototype.countShown = function() {
-  return this.shown++;
+  return shown++;
 };
 
 function randomImage(){
@@ -38,14 +39,21 @@ var waterCan = new Images('water_can', 'img/waterCan.jpg');
 var wineGlass = new Images('wine_glass', 'img/wineGlass.jpg');
 
 function displayImages(){
+
   var firstDiv = document.getElementById('imgOne');
   var secondDiv = document.getElementById('imgTwo');
   var thirdDiv = document.getElementById('imgThree');
+
+  firstDiv.innerHTML = '';
+  secondDiv.innerHTML = '';
+  thirdDiv.innerHTML = '';
 
 //getting first image
   var displayOne = document.createElement('img');
   var getImage = randomImage();
   displayOne.src = allImg[getImage].imagePath;
+  displayOne.id = allImg[getImage].imageName;
+  allImg[getImage].shown++;
   firstDiv.appendChild(displayOne);
 
 //getting second image
@@ -55,16 +63,95 @@ function displayImages(){
     getImageTwo = randomImage();
   };
   displayTwo.src = allImg[getImageTwo].imagePath;
+  displayTwo.id = allImg[getImageTwo].imageName;
+  allImg[getImageTwo].shown++;
   secondDiv.appendChild(displayTwo);
 
 //getting third image
   var displayThree = document.createElement('img');
   var getImageThree = randomImage();
-  while(getImageThree === getImage && getImageTwo){
+  while(getImageThree === getImage || getImageThree === getImageTwo){
     getImageThree = randomImage();
   };
   displayThree.src = allImg[getImageThree].imagePath;
+  displayThree.id = allImg[getImageThree].imageName;
+  allImg[getImageThree].shown++;
   thirdDiv.appendChild(displayThree);
 };
+// displayImages();
+
+function clickHandler(event){
+  console.log(event.target.id);
+  totalClicks++;
+  for(i = 0; i < allImg.length; i++){
+    if(allImg[i].imageName === event.target.id){
+      allImg[i].clicks++;
+    }
+  }
+  if(totalClicks < 15){
+    displayImages();
+  }
+  else if(totalClicks === 15){
+    clickSet();
+  }
+}
+
+function newTriesHandler(){
+  totalClicks = 0;
+  document.getElementById('showGraph').style.visibility = 'hidden';
+  document.getElementById('clickMore').style.visibility = 'hidden';
+  document.getElementById('myChart').style.visibility = 'hidden';
+  displayImages();
+}
+
+function clickSet(){
+
+  document.getElementById('clickMore').style.visibility = 'visible';
+  document.getElementById('showGraph').style.visibility = 'visible';
+  var imgDivs = document.getElementsByClassName('imgDiv');
+  imgDivs[0].style.display = 'none';
+  imgDivs[1].style.display = 'none';
+  imgDivs[2].style.display = 'none';
+}
+
+//canvas chart
+function renderChart(){
+  var names = [];
+  var timesClicked = [];
+  for (i = 0; i < allImg.length; i++){
+    names.push(allImg[i].imageName);
+    timesClicked.push(allImg[i].clicks);
+  }
+
+  var data = {
+    labels: names,
+    datasets: [
+      {label: 'Times Chosen',
+      backgroundColor:'#34ACAF',
+      strokeColor:'#34ACAF',
+      data: timesClicked,
+    }],
+  };
+
+  var ctx = document.getElementById('dispChart');
+  var dispChart = new Chart(ctx, {
+    type:'bar',
+    data: data,
+  });
+}
+
+//new images after each click
+var el = document.getElementById('imgOne');
+el.addEventListener('click', clickHandler);
+var elTwo = document.getElementById('imgTwo');
+elTwo.addEventListener('click', clickHandler);
+var elThree = document.getElementById('imgThree');
+elThree.addEventListener('click', clickHandler);
+
+//15 new clicks
+var clickEl = document.getElementById('clickMore');
+clickEl.addEventListener('click', newTriesHandler);
+var elChart = document.getElementById('showGraph');
+elChart.addEventListener('click', renderChart);
 
 displayImages();

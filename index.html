@@ -2,15 +2,26 @@
 <html>
   <head>
     <title>Bus Mall</title>
-      <link rel='stylesheet' type='text/css' href='style.css'>
+    <link rel='stylesheet' type='text/css' href='style.css'>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.min.js'></script>
   </head>
   <body>
     <p>Click on the picture of the product you are most likely to purchase</p>
-    <section>
-      <div id='imgOne'></div>
-      <div id='imgTwo'></div>
-      <div id='imgThree'></div>
+    <main>
+    <section class='pics'>
+      <div class='imgDiv' id='imgOne'></div>
+      <div class='imgDiv' id='imgTwo'></div>
+      <div class='imgDiv' id='imgThree'></div>
     </section>
+    <section>
+      <div class="buttons">
+        <button id="clickMore">Choose again</button>
+        <button id="showGraph">View Results</button>
+      </div>
+      <section class="Chart">
+      <canvas id="dispChart" width="300" height="300"></canvas>
+    </section>
+  </main>
     <script src='apps.js'></script>
   </body>
 </html>
