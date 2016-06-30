@@ -96,6 +96,14 @@ function clickHandler(event){
   }
 }
 
+function newTriesHandler(){
+  totalClicks = 0;
+  document.getElementById('showGraph').style.visibility = 'hidden';
+  document.getElementById('clickMore').style.visibility = 'hidden';
+  document.getElementById('myChart').style.visibility = 'hidden';
+  displayImages();
+}
+
 function clickSet(){
 
   document.getElementById('clickMore').style.visibility = 'visible';
@@ -106,21 +114,13 @@ function clickSet(){
   imgDivs[2].style.display = 'none';
 }
 
-function newTriesHandler(){
-  totalClicks = 0;
-  document.getElementById('showGraph').style.visibility = 'hidden';
-  document.getElementById('clickMore').style.visibility = 'hidden';
-  document.getElementById('myChart').style.visibility = 'hidden';
-  displayImages();
-}
-
 //canvas chart
 function renderChart(){
   var names = [];
-  var xClicked = [];
+  var timesClicked = [];
   for (i = 0; i < allImg.length; i++){
     names.push(allImg[i].imageName);
-    xClicked.push(allImg[i].clicks);
+    timesClicked.push(allImg[i].clicks);
   }
 
   var data = {
@@ -129,12 +129,12 @@ function renderChart(){
       {label: 'Times Chosen',
       backgroundColor:'#34ACAF',
       strokeColor:'#34ACAF',
-      data: xClicked,
+      data: timesClicked,
     }],
   };
 
-  var ctx = document.getElementById('myChart');
-  var myChart = new Chart(ctx, {
+  var ctx = document.getElementById('dispChart');
+  var dispChart = new Chart(ctx, {
     type:'bar',
     data: data,
   });
