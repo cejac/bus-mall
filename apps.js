@@ -78,7 +78,6 @@ function displayImages(){
   allImg[getImageThree].shown++;
   thirdDiv.appendChild(displayThree);
 };
-// displayImages();
 
 function clickHandler(event){
   console.log(event.target.id);
@@ -99,14 +98,11 @@ function clickHandler(event){
 function newTriesHandler(){
   totalClicks = 0;
   document.getElementById('showGraph').style.visibility = 'hidden';
-  document.getElementById('clickMore').style.visibility = 'hidden';
   document.getElementById('myChart').style.visibility = 'hidden';
   displayImages();
 }
 
 function clickSet(){
-
-  document.getElementById('clickMore').style.visibility = 'visible';
   document.getElementById('showGraph').style.visibility = 'visible';
   var imgDivs = document.getElementsByClassName('imgDiv');
   imgDivs[0].style.display = 'none';
@@ -148,9 +144,7 @@ elTwo.addEventListener('click', clickHandler);
 var elThree = document.getElementById('imgThree');
 elThree.addEventListener('click', clickHandler);
 
-//15 new clicks
-var clickEl = document.getElementById('clickMore');
-clickEl.addEventListener('click', newTriesHandler);
+
 var elChart = document.getElementById('showGraph');
 elChart.addEventListener('click', renderChart);
 
