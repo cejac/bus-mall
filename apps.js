@@ -1,11 +1,11 @@
 var allImg = [];
 totalClicks = 0;
 
-function Images(imageName, imagePath) {
+function Images(imageName, imagePath, clicks, shown) {
   this.imageName = imageName;
   this.imagePath = imagePath;
-  this.clicks = 0;
-  this.shown = 0;
+  this.clicks = clicks;
+  this.shown = shown;
   allImg.push(this);
 }
 
@@ -17,26 +17,28 @@ function randomImage(){
   return Math.floor(Math.random() * allImg.length);
 };
 
-var bag = new Images('bag', 'img/bag.jpg');
-var banana = new Images('banana_slicer', 'img/banana.jpg');
-var bathroom = new Images('bathroom_ipad', 'img/bathroom.jpg');
-var boots = new Images('boots', 'img/boots.jpg');
-var breakfast = new Images('breakfast', 'img/breakfast.jpg');
-var bubblegum = new Images('meatball_bubblegum', 'img/bubblegum.jpg');
-var chair = new Images('chair', 'img/chair.jpg');
-var cthulhu = new Images('cthulhu', 'img/cthulhu.jpg');
-var dogDuck = new Images('dog_duck', 'img/dogDuck.jpg');
-var dragon = new Images('dragon_meat', 'img/dragon.jpg');
-var pen = new Images('pen_utensils', 'img/pen.jpg');
-var petSweep = new Images('pet_sweep', 'img/petSweep.jpg');
-var scissors = new Images('pizza_scissors', 'img/scissors.jpg');
-var shark = new Images('shark', 'img/shark.jpg');
-var sweep = new Images('baby_sweeper', 'img/sweep.png');
-var tauntaun = new Images('tauntaun', 'img/tauntaun.jpg');
-var unicorn = new Images('unicorn_meat', 'img/unicorn.jpg');
-var usb = new Images('usb', 'img/usb.jpg');
-var waterCan = new Images('water_can', 'img/waterCan.jpg');
-var wineGlass = new Images('wine_glass', 'img/wineGlass.jpg');
+function runImages(){
+var bag = new Images('bag', 'img/bag.jpg', 0, 0);
+var banana = new Images('banana_slicer', 'img/banana.jpg', 0, 0);
+var bathroom = new Images('bathroom_ipad', 'img/bathroom.jpg', 0, 0);
+var boots = new Images('boots', 'img/boots.jpg', 0, 0);
+var breakfast = new Images('breakfast', 'img/breakfast.jpg', 0, 0);
+var bubblegum = new Images('meatball_bubblegum', 'img/bubblegum.jpg', 0, 0);
+var chair = new Images('chair', 'img/chair.jpg', 0, 0);
+var cthulhu = new Images('cthulhu', 'img/cthulhu.jpg', 0, 0);
+var dogDuck = new Images('dog_duck', 'img/dogDuck.jpg', 0, 0);
+var dragon = new Images('dragon_meat', 'img/dragon.jpg', 0, 0);
+var pen = new Images('pen_utensils', 'img/pen.jpg', 0, 0);
+var petSweep = new Images('pet_sweep', 'img/petSweep.jpg', 0, 0);
+var scissors = new Images('pizza_scissors', 'img/scissors.jpg', 0, 0);
+var shark = new Images('shark', 'img/shark.jpg', 0, 0);
+var sweep = new Images('baby_sweeper', 'img/sweep.png', 0, 0);
+var tauntaun = new Images('tauntaun', 'img/tauntaun.jpg', 0, 0);
+var unicorn = new Images('unicorn_meat', 'img/unicorn.jpg', 0, 0);
+var usb = new Images('usb', 'img/usb.jpg', 0, 0);
+var waterCan = new Images('water_can', 'img/waterCan.jpg', 0, 0);
+var wineGlass = new Images('wine_glass', 'img/wineGlass.jpg', 0, 0);
+};
 
 function displayImages(){
 
@@ -86,6 +88,8 @@ function clickHandler(event){
     if(allImg[i].imageName === event.target.id){
       allImg[i].clicks++;
     }
+    var strImg = JSON.stringify(allImg);
+    localStorage.setItem('storedImages', strImg);
   }
   if(totalClicks < 15){
     displayImages();
@@ -123,8 +127,8 @@ function renderChart(){
     labels: names,
     datasets: [
       {label: 'Times Chosen',
-      backgroundColor:'#34ACAF',
-      strokeColor:'#34ACAF',
+      backgroundColor:'#D6978E',
+      strokeColor:'#AE5D63',
       data: timesClicked,
     }],
   };
@@ -147,5 +151,21 @@ elThree.addEventListener('click', clickHandler);
 
 var elChart = document.getElementById('showGraph');
 elChart.addEventListener('click', renderChart);
+
+(function getLocalStorage(){
+  console.log("iffe called")
+  if(localStorage.storedImages){
+    console.log("stored items")
+    var strImg = localStorage.getItem('storedImages');
+    var storedImages = JSON.parse(strImg);
+    for (var pics of storedImages) {
+      console.log(pics);
+      var newPics = new Images(pics.imageName, pics.imagePath, pics.clicks, pics.shown);
+    }
+  } else {
+    runImages();
+    console.log("nothing stored")
+  }
+})();
 
 displayImages();
